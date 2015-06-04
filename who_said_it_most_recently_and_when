@@ -1,0 +1,30 @@
+import requests
+import pprint
+
+query_params = { 'apikey': 'API_KEY',
+				 'per_page': 3,
+		   		 'phrase': 'happy holidays',
+		   		 'sort': 'date desc'
+		 		}
+
+endpoint = 'http://capitolwords.org/api/text.json'
+
+response = requests.get(endpoint, params=query_params)
+data = response.json
+pprint.pprint(data)
+
+legislator = data['results'][0]['speaker_first']+" "+data['results'][0]['speaker_last']
+date = data['results'][0]['date']
+
+"""
+I'm not too well versed in this stuff either but the reason that you use data['results'][0]['speaker_first'] 
+can be seen when you use the default pprint.pprint(data) call. This shows that you want to use the 
+'results' section of data. After that, you know that since you sorted by date in descending order the most 
+recent time the phrase was said is the first value listed, so you call the first value listed which is
+data['results'][0]. Next with legislator you notice in the pprint.pprint(data) call that the first and 
+last name of the legislator is separated so you know that the first name is data['results'][0]['speaker_first'] 
+and the last name is data['results'][0]['speaker_last']. Thus you concatenate them and set them to legislator 
+and get legislator= data['results'][0]['speaker_first'+' '+data['results'][0]['speaker_last']] for 
+the legislator name. Also, it follows that the date it was said is date=data['results'][0]['date']. 
+"""
+print "%s said happy holidays on %s" %(legislator,date)
