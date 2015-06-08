@@ -1,0 +1,20 @@
+import requests
+import pprint
+
+state = raw_input('Enter two letter state abbreviation: ') # > or :
+
+query_params = { 'apikey': 'API_KEY',
+				 'per_page': 10,
+				 'entity_type': 'state', #word appearing
+				 'entity_value': state, #value
+				 'phrase': 'Top Words',
+		   		 'sort': 'count desc'
+		   
+		 		}
+
+endpoint = 'http://capitolwords.org/api/phrases.json'
+
+response = requests.get(endpoint, params=query_params)
+data = response.json #may need .json() in other text editors
+pprint.pprint(data)
+
