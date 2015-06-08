@@ -1,0 +1,30 @@
+import requests
+import pprint
+
+word = raw_input('Input key phrase > ') #not sure if the arrow is necessary
+
+query_params = { 'apikey': 'API_KEY',
+				 'per_page': 10,
+		   		 'sort': 'date desc',
+		   		 'phrase': word 
+		   		 #defined above with raw_input
+		 		}
+
+endpoint = 'http://capitolwords.org/api/text.json'
+
+response = requests.get(endpoint, params=query_params)
+data = response.json #may need .json() in other text editors
+pprint.pprint(data)
+
+date = data['results'][0]['date']
+speaker = data['results'][0]['speaker_raw']
+speech = data['results'][0]['speaking']
+
+#The keys within these occurrence dictionaries are 
+#standard. You can see that in order to get the date, 
+#speaker, and speech values, I drew the values from the 
+#keys, date,speaker_raw, and speaking respectively.
+
+print 'On %s, %s said:\n %s ' %(date, speaker, "".join(speech))
+# I used .join here to get rid of brackets and the pesky #unicode "u", since the value of the speaking key is 
+#actually a list
